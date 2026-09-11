@@ -2,24 +2,258 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manetkedy | Portfolyo</title>
     <style>
-        body { background-color: #1a1a2e; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; margin: 0; padding: 50px; }
-        h1 { color: #4da6ff; }
-        .kutu { background-color: #16213e; padding: 20px; border-radius: 10px; display: inline-block; margin-top: 20px; border: 2px solid #0f3460; }
-        a.buton { display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #e94560; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        a.buton:hover { background-color: #ff4d6d; }
+        /* GENEL BEYAZ ARKA PLAN VE BOŞLUKLAR */
+        body {
+            margin: 0;
+            padding: 40px 3vw 3vw 3vw; /* Üstten 40px boşluk bıraktık ki logo ekrana yapışmasın */
+            background-color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
+        /* --- BEYAZ ALANDAKİ LOGO --- */
+        /* --- BEYAZ ALANDAKİ LOGO --- */
+        .kertenkele-logo {
+            width: 160px;  /* Boyutu 120'den 160'a çıkardık. İstersen bu sayıyı 180 veya 200 yapabilirsin */
+            height: 160px; /* Kutu kare kalsın diye genişlikle aynı sayıyı yazmalısın */
+            margin: 0 auto 60px auto; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* border: 2px dashed #ccc; --> NOKTALI ÇİZGİ KODUNU TAMAMEN SİLDİK */
+            border-radius: 10px;
+        }
+
+        /* --- İÇ SİYAH EKRAN (MENÜLER VE İÇERİK) --- */
+        .siyah-tuval {
+            background-color: #070707; 
+            color: white;
+            border-radius: 12px;
+            padding: 40px 50px 50px 50px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+            min-height: calc(100vh - 200px - 6vw);
+        }
+
+        /* ÜST MENÜ BUTONLARI (Siyah Ekranın Başlangıcı) */
+        .ust-menuler {
+            text-align: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .menu-butonlari {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap; 
+        }
+        
+        .menu-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+        
+        .menu-btn:hover {
+            background-color: white;
+            color: black;
+            transform: translateY(-3px); 
+        }
+
+        /* SAYFA DEĞİŞİM SİSTEMİ */
+        .sayfa-bolumu { display: none; }
+        .aktif-sayfa {
+            display: block;
+            animation: belirmeEfekti 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes belirmeEfekti {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* AKILLI IZGARA SİSTEMİ */
+        .izgara-sistemi {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .kutu {
+            background-color: #111;
+            border: 1px solid #333;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kutu:hover {
+            border-color: #fff;
+            transform: scale(1.03);
+            box-shadow: 0 5px 20px rgba(255,255,255,0.05);
+        }
+
+        .buton-oyna {
+            margin-top: 20px;
+            background-color: white;
+            color: black;
+            padding: 10px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .buton-oyna:hover {
+            background-color: #ddd;
+        }
+
+        /* HAKKIMDA KISMI */
+        .hakkimda-icerik {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        .hakkimda-icerik h2 { color: white; letter-spacing: 2px; }
+
+        .sosyal-linkler {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+            align-items: center;
+        }
+
+        .sosyal-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid #555;
+            padding: 15px 30px;
+            text-decoration: none;
+            width: 100%;
+            max-width: 300px;
+            font-size: 15px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .sosyal-btn:hover {
+            background-color: white;
+            color: black;
+        }
+
+        /* MOBİL UYUM */
+        @media (max-width: 768px) {
+            body { padding: 20px 15px 15px 15px; } 
+            .kertenkele-logo { width: 90px; height: 90px; margin-bottom: 25px; }
+            .siyah-tuval { padding: 25px 15px; }
+            .menu-btn { padding: 10px 15px; font-size: 13px; flex: 1; text-align: center; }
+            .hakkimda-icerik { font-size: 15px; }
+        }
     </style>
 </head>
 <body>
-    <h1>Manetkedy</h1>
-    <p>Görsel sanatlar öğretmeni adayı, bağımsız oyun geliştiricisi ve piksel sanatçısı.</p>
-    <p>Projelerimi ve geliştirdiğim oyunları aşağıdan inceleyebilirsiniz.</p>
-    
-    <div class="kutu">
-        <h2>Uçan Uçak</h2>
-        <p>Godot 4 ile geliştirdiğim ilk web oyunum.</p>
-        <a href="flappy/index.html" class="buton">Oyunu Oyna</a>
+
+    <!-- 1. BÖLÜM: BEYAZ ALANDAKİ LOGO -->
+    <div class="kertenkele-logo">
+    <img src="logo.png" alt="Manetkedy Logo" style="max-width: 100%; max-height: 100%;">
+</div>
+
+    <!-- 2. BÖLÜM: İÇ SİYAH EKRAN -->
+    <div class="siyah-tuval">
+        
+        <!-- ÜST MENÜLER -->
+        <div class="ust-menuler">
+            <div class="menu-butonlari">
+                <button class="menu-btn" onclick="sayfaDegistir('hakkimda')">Hakkımda</button>
+                <button class="menu-btn" onclick="sayfaDegistir('oyunlar')">Oyunlar</button>
+                <button class="menu-btn" onclick="sayfaDegistir('resimler')">Resimler</button>
+            </div>
+        </div>
+
+        <!-- HAKKIMDA İÇERİĞİ -->
+        <div id="hakkimda" class="sayfa-bolumu aktif-sayfa">
+            <div class="hakkimda-icerik">
+                <h2>Muhammet</h2>
+                <p>Görsel sanatlar eğitimi alıyor, aynı zamanda Godot Engine ve Unity ile bağımsız oyunlar geliştiriyorum. Dijital tasarımları ve pikselleri seviyorum</p>
+                
+                <div class="sosyal-linkler">
+                    <a href="https://instagram.com/Muhammet.ali.ates" target="_blank" class="sosyal-btn">Instagram</a>
+                    <a href="https://x.com/Manetkedy" target="_blank" class="sosyal-btn">X (Twitter)</a>
+                    <a href="mailto:telkintgames@gmail.com" class="sosyal-btn">E-Posta Gönder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- OYUNLAR İÇERİĞİ -->
+        <div id="oyunlar" class="sayfa-bolumu">
+            <div class="izgara-sistemi">
+                <div class="kutu">
+                    <h3>Uçak</h3>
+                    <p style="font-size: 12px; color: #888;">Godot Web Port</p>
+                    <a href="flappy/index.html" class="buton-oyna">Oyna</a>
+                </div>
+                <div class="kutu" style="border-style: dashed; border-color: #333;">
+                    <h3 style="color: #666;">Yakında...</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESİMLER İÇERİĞİ -->
+        <div id="resimler" class="sayfa-bolumu">
+            <p style="text-align: center; color: #888; margin-bottom: 30px; font-size: 14px;">Aseprite ile çizdiğim piksel tasarımlarım ve Illustrator çalışmalarım.</p>
+            <div class="izgara-sistemi">
+                <div class="kutu" style="border-style: dashed; border-color: #333;">
+                    <p style="color: #555;">Resim 1</p>
+                </div>
+                <div class="kutu" style="border-style: dashed; border-color: #333;">
+                    <p style="color: #555;">Resim 2</p>
+                </div>
+                <div class="kutu" style="border-style: dashed; border-color: #333;">
+                    <p style="color: #555;">Resim 3</p>
+                </div>
+                <div class="kutu" style="border-style: dashed; border-color: #333;">
+                    <p style="color: #555;">Resim 4</p>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <!-- SAYFA DEĞİŞTİRME JAVASCRIPT'İ -->
+    <script>
+        function sayfaDegistir(hedefId) {
+            document.getElementById('hakkimda').classList.remove('aktif-sayfa');
+            document.getElementById('oyunlar').classList.remove('aktif-sayfa');
+            document.getElementById('resimler').classList.remove('aktif-sayfa');
+            document.getElementById(hedefId).classList.add('aktif-sayfa');
+        }
+    </script>
 </body>
 </html>
